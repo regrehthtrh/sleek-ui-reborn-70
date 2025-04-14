@@ -33,12 +33,12 @@ export const ThemeToggle: React.FC = () => {
   return (
     <button 
       onClick={toggleTheme}
-      className="theme-toggle fixed bottom-4 left-4 bg-white dark:bg-[#1E1E1F] p-2 rounded-full shadow-lg hover:scale-105 transition-transform"
+      className="theme-toggle fixed bottom-4 left-4 bg-white border border-[#D84B16] p-2 rounded-full shadow-lg hover:bg-[#D84B16] transition-colors"
       aria-label="Toggle theme"
     >
       {isDark ? 
-        <Sun size={20} className="text-[#D84B16] bg-transparent" /> : 
-        <Moon size={20} className="text-[#D84B16] bg-transparent" />
+        <Sun size={20} className="text-[#D84B16] hover:text-white transition-colors" /> : 
+        <Moon size={20} className="text-[#D84B16] hover:text-white transition-colors" />
       }
     </button>
   );

@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -74,7 +74,7 @@
     @apply border-border;
   }
   html {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
   body {
     @apply bg-background text-foreground transition-colors duration-300;
@@ -126,7 +126,7 @@
 }
 
 .theme-toggle {
-  @apply fixed bottom-4 left-4 z-50 bg-white dark:bg-[#1E1E1F] p-3 rounded-full shadow-lg cursor-pointer transition-all hover:scale-105 border border-gray-200 dark:border-gray-700;
+  @apply fixed bottom-4 left-4 z-50 bg-white dark:bg-[#1E1E1F] p-3 rounded-full shadow-lg cursor-pointer transition-all hover:scale-105 border border-[#D84B16] dark:border-[#D84B16] hover:bg-[#D84B16];
 }
 
 .progress-container {

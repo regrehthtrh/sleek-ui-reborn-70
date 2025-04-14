@@ -34,13 +34,13 @@ export const AdditionalServicesStep: React.FC<AdditionalServicesStepProps> = ({
     { id: 'payment-paypal', name: translation.additionalServices?.paymentPaypal || 'PayPal Integration', price: 15000 },
     { id: 'payment-stripe', name: translation.additionalServices?.paymentStripe || 'Stripe Payment Integration', price: 18000 },
     { id: 'blog', name: translation.additionalServices?.blog || 'Blog Setup', price: 12000 },
-    { id: 'seo', name: translation.additionalServices?.seo || 'SEO Optimization', price: 25000 },
+    { id: 'seo', name: translation.additionalServices?.seo || 'SEO Optimization', price: 15000 },  // Lowered from 25000
     { id: 'social-media', name: translation.additionalServices?.socialMedia || 'Social Media Integration', price: 8000 },
     { id: 'analytics', name: translation.additionalServices?.analytics || 'Analytics Setup', price: 10000 },
     { id: 'admin-panel', name: translation.additionalServices?.adminPanel || 'Custom Admin Panel', price: 30000 },
-    { id: 'chatbot', name: translation.additionalServices?.chatbot || 'Chatbot Integration', price: 22000 },
+    { id: 'chatbot', name: translation.additionalServices?.chatbot || 'Chatbot Integration', price: 15000 },  // Lowered from 22000
     { id: 'custom-email', name: translation.additionalServices?.customEmail || 'Custom Email Templates', price: 9000 },
-    { id: 'responsive', name: translation.additionalServices?.responsive || 'Responsive Design', price: 15000 },
+    // Removed responsive design option as requested
   ];
 
   const handleToggleService = (id: string) => {

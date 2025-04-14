@@ -28,24 +28,24 @@ export const DescriptionStep: React.FC<DescriptionStepProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="form-appear space-y-6">
-      <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-bold">{translation.descriptionTitle || "Project Description"}</h1>
-        <p className="text-muted-foreground">{translation.descriptionSubtitle || "Please provide a brief description of your project requirements."}</p>
+      <div className="space-y-3 text-center">
+        <h1 className="text-3xl font-bold text-foreground">{translation.descriptionTitle || "Project Description"}</h1>
+        <p className="text-base text-foreground font-medium">{translation.descriptionSubtitle || "Please provide a brief description of your project requirements."}</p>
       </div>
 
       <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="description">{translation.descriptionLabel || "Project Details (optional)"}</Label>
+        <div className="space-y-3">
+          <Label htmlFor="description" className="text-lg font-medium">{translation.descriptionLabel || "Project Details (optional)"}</Label>
           <Textarea
             id="description"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder={translation.descriptionPlaceholder || "Tell us more about your project requirements..."}
-            className="min-h-[150px]"
+            className="min-h-[180px] text-base"
           />
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full text-base py-6">
           {translation.descriptionButton || "Next"}
         </Button>
       </div>

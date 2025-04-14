@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/sonner';
 import { WelcomeStep } from './steps/WelcomeStep';
@@ -307,6 +308,7 @@ export const FormContainer: React.FC = () => {
           translation={currentTranslation}
           initialValue={formData.phone}
           language={language}
+          defaultCountry="DZ" // Set Algeria as default country
         />;
       
       case 'business':
@@ -433,17 +435,17 @@ export const FormContainer: React.FC = () => {
     <div className={`min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-secondary/20 py-12 ${language === 'ar' ? 'rtl' : ''}`}>
       {showBackButton && (
         <Button 
-          variant="outline" 
-          className="fixed top-8 left-8 z-50 flex items-center gap-2 bg-white hover:bg-orange-500 hover:text-white border-orange-500 text-orange-500 shadow-md"
+          variant="default" 
+          className="fixed top-8 left-8 z-50 bg-white text-[#D84B16] border border-[#D84B16] hover:bg-[#D84B16] hover:text-white transition-colors duration-200"
           onClick={goBack}
           aria-label="Go back"
         >
-          <ChevronLeft size={20} className="text-orange-500 group-hover:text-white" />
+          <ChevronLeft size={20} className="mr-1" />
           <span>{language === 'fr' ? 'Retour' : language === 'ar' ? 'رجوع' : 'Back'}</span>
         </Button>
       )}
       
-      <div className="w-full max-w-lg mx-auto p-6 bg-card rounded-xl shadow-lg animate-fade-in relative">
+      <div className="w-full max-w-xl mx-auto p-8 bg-card rounded-xl shadow-lg animate-fade-in relative">
         {renderStep()}
       </div>
       <ThemeToggle />
