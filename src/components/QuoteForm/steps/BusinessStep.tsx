@@ -2,66 +2,65 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { FormTranslations } from '../translations';
-import { ArrowRight, Building2 } from 'lucide-react';
 
 interface BusinessStepProps {
   onNext: (value: string) => void;
   translation: FormTranslations;
-  initialValue: string;
+  initialValue?: string;
   language: string;
+  isOptional?: boolean;
 }
 
-export const BusinessStep: React.FC<BusinessStepProps> = ({ 
-  onNext, 
-  translation, 
-  initialValue,
-  language
+export const BusinessStep: React.FC<BusinessStepProps> = ({
+  onNext,
+  translation,
+  initialValue = '',
+  language,
+  isOptional = false
 }) => {
-  const [business, setBusiness] = useState(initialValue);
-  const [error, setError] = useState('');
+  const [value, setValue] = useState(initialValue);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!business.trim()) {
+    
+    if (!value.trim() && !isOptional) {
       setError(translation.businessError);
       return;
     }
-    onNext(business);
+    
+    setError(null);
+    onNext(value);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold">{translation.businessTitle}</h2>
+    <form onSubmit={handleSubmit} className="form-appear space-y-6">
+      <div className="space-y-2 text-center">
+        <h1 className="text-2xl font-bold">{translation.businessTitle}</h1>
+        {isOptional && (
+          <p className="text-sm text-muted-foreground">{translation.optional || "(Optional)"}</p>
+        )}
       </div>
-      
-      <div className="space-y-2">
-        <div className="relative">
-          <Building2 className="absolute left-3 top-3 h-6 w-6 text-muted-foreground" />
+
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="business">{translation.businessTitle}</Label>
           <Input
-            type="text"
             id="business"
-            value={business}
-            onChange={(e) => {
-              setBusiness(e.target.value);
-              if (e.target.value.trim()) setError('');
-            }}
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             placeholder={translation.businessPlaceholder}
-            className={`h-12 text-lg pl-12 ${error ? 'border-red-500' : ''}`}
           />
+          {error && <p className="text-sm text-destructive">{error}</p>}
         </div>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+
+        <Button type="submit" className="w-full">
+          {translation.businessButton}
+        </Button>
       </div>
-      
-      <Button 
-        type="submit" 
-        className="w-full"
-        size="lg"
-      >
-        {translation.businessButton}
-        <ArrowRight className="ml-2 h-4 w-4" />
-      </Button>
     </form>
   );
 };

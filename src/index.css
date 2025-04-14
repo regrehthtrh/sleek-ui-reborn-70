@@ -16,7 +16,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 20 86% 47%;
+    --primary: 20 79% 47%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -33,39 +33,39 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 20 86% 47%;
+    --ring: 20 79% 47%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 224 6% 12%;
+    --foreground: 0 0% 100%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 224 6% 12%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 224 6% 12%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 20 86% 47%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 20 79% 47%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 217.2 10% 16.5%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 217.2 10% 16.5%;
+    --muted-foreground: 215 20.2% 75.1%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 217.2 10% 16.5%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 20 86% 47%;
+    --border: 217.2 10% 20.5%;
+    --input: 217.2 10% 20.5%;
+    --ring: 20 79% 47%;
   }
 }
 
@@ -134,7 +134,12 @@
 }
 
 .back-button {
-  @apply absolute top-4 left-4 text-muted-foreground hover:text-foreground transition-colors;
+  @apply absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors;
+}
+
+/* Dark theme button styles */
+.dark button {
+  @apply border border-primary text-primary bg-transparent hover:bg-primary hover:text-white transition-all;
 }
 
 @media (max-width: 640px) {

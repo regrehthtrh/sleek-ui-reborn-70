@@ -33,7 +33,7 @@ export const ThemeToggle: React.FC = () => {
       className="theme-toggle"
       aria-label="Toggle theme"
     >
-      {isDark ? <Sun size={20} /> : <Moon size={20} />}
+      {isDark ? <Sun size={20} className="text-primary" /> : <Moon size={20} />}
     </button>
   );
 };

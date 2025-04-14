@@ -9,13 +9,18 @@ import { BusinessStep } from './steps/BusinessStep';
 import { ServiceStep } from './steps/ServiceStep';
 import { WebObjectiveStep } from './steps/WebObjectiveStep';
 import { EcommerceStep } from './steps/EcommerceStep';
+import { MobileSubtypeStep } from './steps/MobileSubtypeStep';
+import { AiSubtypeStep } from './steps/AiSubtypeStep';
+import { CybersecuritySubtypeStep } from './steps/CybersecuritySubtypeStep';
+import { CloudSubtypeStep } from './steps/CloudSubtypeStep';
+import { DescriptionStep } from './steps/DescriptionStep';
 import { BudgetStep } from './steps/BudgetStep';
-import { FormData, Service, Step } from './types';
+import { FormData, Service, Step, MobileSubtype, AiSubtype, CybersecuritySubtype, CloudSubtype } from './types';
 import { TranslationKey, translations } from './translations';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { FormProgress } from './FormProgress';
-import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 // Order of steps to calculate progress and enable back navigation
 const stepOrder: Step[] = [
@@ -27,11 +32,23 @@ const stepOrder: Step[] = [
   'service',
   'web-objective',
   'ecommerce',
+  'mobile-subtype',
+  'ai-subtype',
+  'cybersecurity-subtype',
+  'cloud-subtype',
+  'description',
   'budget'
 ];
 
 // Steps that should be conditionally shown based on service selection
-const conditionalSteps: Step[] = ['web-objective', 'ecommerce'];
+const conditionalSteps: Step[] = [
+  'web-objective', 
+  'ecommerce',
+  'mobile-subtype',
+  'ai-subtype',
+  'cybersecurity-subtype',
+  'cloud-subtype'
+];
 
 export const FormContainer: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<Step>('welcome');
@@ -45,6 +62,11 @@ export const FormContainer: React.FC = () => {
     service: undefined,
     webObjective: undefined,
     ecommerceCategory: undefined,
+    mobileSubtype: undefined,
+    aiSubtype: undefined,
+    cybersecuritySubtype: undefined,
+    cloudSubtype: undefined,
+    projectDescription: '',
     budget: null,
   });
   
@@ -58,6 +80,10 @@ export const FormContainer: React.FC = () => {
       if (formData.service) {
         if (step === 'web-objective' && formData.service !== 'Web Development') return false;
         if (step === 'ecommerce' && formData.service !== 'E-Commerce') return false;
+        if (step === 'mobile-subtype' && formData.service !== 'Mobile App Development') return false;
+        if (step === 'ai-subtype' && formData.service !== 'AI & Machine Learning') return false;
+        if (step === 'cybersecurity-subtype' && formData.service !== 'Cybersecurity Solutions') return false;
+        if (step === 'cloud-subtype' && formData.service !== 'Cloud Services') return false;
       }
       return true;
     });
@@ -93,9 +119,23 @@ export const FormContainer: React.FC = () => {
       nextStep('web-objective');
     } else if (service === 'E-Commerce') {
       nextStep('ecommerce');
+    } else if (service === 'Mobile App Development') {
+      nextStep('mobile-subtype');
+    } else if (service === 'AI & Machine Learning') {
+      nextStep('ai-subtype');
+    } else if (service === 'Cybersecurity Solutions') {
+      nextStep('cybersecurity-subtype');
+    } else if (service === 'Cloud Services') {
+      nextStep('cloud-subtype');
     } else {
-      nextStep('budget');
+      nextStep('description');
     }
+  };
+  
+  // Skip business name if it's empty
+  const handleBusinessStep = (value: string) => {
+    setFormData(prev => ({ ...prev, business: value }));
+    nextStep('service');
   };
   
   const handleSubmit = () => {
@@ -110,6 +150,11 @@ export const FormContainer: React.FC = () => {
       service: undefined,
       webObjective: undefined,
       ecommerceCategory: undefined,
+      mobileSubtype: undefined,
+      aiSubtype: undefined,
+      cybersecuritySubtype: undefined,
+      cloudSubtype: undefined,
+      projectDescription: '',
       budget: null,
     });
     setCurrentStep('welcome');
@@ -125,6 +170,10 @@ export const FormContainer: React.FC = () => {
     const serviceSpecificSteps = stepOrder.filter(step => {
       if (step === 'web-objective' && formData.service !== 'Web Development') return false;
       if (step === 'ecommerce' && formData.service !== 'E-Commerce') return false;
+      if (step === 'mobile-subtype' && formData.service !== 'Mobile App Development') return false;
+      if (step === 'ai-subtype' && formData.service !== 'AI & Machine Learning') return false;
+      if (step === 'cybersecurity-subtype' && formData.service !== 'Cybersecurity Solutions') return false;
+      if (step === 'cloud-subtype' && formData.service !== 'Cloud Services') return false;
       return true;
     });
     
@@ -137,6 +186,10 @@ export const FormContainer: React.FC = () => {
       if (formData.service) {
         if (step === 'web-objective' && formData.service !== 'Web Development') return false;
         if (step === 'ecommerce' && formData.service !== 'E-Commerce') return false;
+        if (step === 'mobile-subtype' && formData.service !== 'Mobile App Development') return false;
+        if (step === 'ai-subtype' && formData.service !== 'AI & Machine Learning') return false;
+        if (step === 'cybersecurity-subtype' && formData.service !== 'Cybersecurity Solutions') return false;
+        if (step === 'cloud-subtype' && formData.service !== 'Cloud Services') return false;
       }
       return true;
     });
@@ -189,13 +242,11 @@ export const FormContainer: React.FC = () => {
       
       case 'business':
         return <BusinessStep 
-          onNext={(value) => {
-            setFormData(prev => ({ ...prev, business: value }));
-            nextStep('service');
-          }}
+          onNext={handleBusinessStep}
           translation={currentTranslation}
           initialValue={formData.business}
           language={language}
+          isOptional={true}
         />;
       
       case 'service':
@@ -209,7 +260,7 @@ export const FormContainer: React.FC = () => {
         return <WebObjectiveStep 
           onNext={(value) => {
             setFormData(prev => ({ ...prev, webObjective: value }));
-            nextStep('budget');
+            nextStep('description');
           }}
           translation={currentTranslation}
           language={language}
@@ -219,9 +270,60 @@ export const FormContainer: React.FC = () => {
         return <EcommerceStep 
           onNext={(value) => {
             setFormData(prev => ({ ...prev, ecommerceCategory: value }));
+            nextStep('description');
+          }}
+          translation={currentTranslation}
+          language={language}
+        />;
+      
+      case 'mobile-subtype':
+        return <MobileSubtypeStep
+          onNext={(value: MobileSubtype) => {
+            setFormData(prev => ({ ...prev, mobileSubtype: value }));
+            nextStep('description');
+          }}
+          translation={currentTranslation}
+          language={language}
+        />;
+        
+      case 'ai-subtype':
+        return <AiSubtypeStep
+          onNext={(value: AiSubtype) => {
+            setFormData(prev => ({ ...prev, aiSubtype: value }));
+            nextStep('description');
+          }}
+          translation={currentTranslation}
+          language={language}
+        />;
+        
+      case 'cybersecurity-subtype':
+        return <CybersecuritySubtypeStep
+          onNext={(value: CybersecuritySubtype) => {
+            setFormData(prev => ({ ...prev, cybersecuritySubtype: value }));
+            nextStep('description');
+          }}
+          translation={currentTranslation}
+          language={language}
+        />;
+        
+      case 'cloud-subtype':
+        return <CloudSubtypeStep
+          onNext={(value: CloudSubtype) => {
+            setFormData(prev => ({ ...prev, cloudSubtype: value }));
+            nextStep('description');
+          }}
+          translation={currentTranslation}
+          language={language}
+        />;
+      
+      case 'description':
+        return <DescriptionStep
+          onNext={(value: string) => {
+            setFormData(prev => ({ ...prev, projectDescription: value }));
             nextStep('budget');
           }}
           translation={currentTranslation}
+          initialValue={formData.projectDescription}
           language={language}
         />;
       
@@ -247,7 +349,7 @@ export const FormContainer: React.FC = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="back-button" 
+            className="absolute top-4 left-4 text-muted-foreground hover:bg-primary hover:text-white" 
             onClick={goBack}
             aria-label="Go back"
           >
