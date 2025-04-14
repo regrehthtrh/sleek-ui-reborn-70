@@ -1,87 +1,98 @@
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { FormTranslations } from '../translations';
-import { ArrowRight } from 'lucide-react';
 import PhoneInput from 'react-phone-number-input';
+import { isValidPhoneNumber } from 'react-phone-number-input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import 'react-phone-number-input/style.css';
+import { Translation } from '../translations';
 
 interface PhoneStepProps {
   onNext: (value: string) => void;
-  translation: FormTranslations;
-  initialValue: string;
+  translation: Translation;
+  initialValue?: string;
   language: string;
 }
 
-export const PhoneStep: React.FC<PhoneStepProps> = ({ 
-  onNext, 
-  translation, 
-  initialValue,
+export const PhoneStep: React.FC<PhoneStepProps> = ({
+  onNext,
+  translation,
+  initialValue = '',
   language
 }) => {
-  const [phone, setPhone] = useState(initialValue);
-  const [error, setError] = useState('');
+  const [value, setValue] = useState(initialValue);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!phone) {
+    if (!value) {
       setError(translation.phoneError);
       return;
     }
-    onNext(phone);
+
+    try {
+      if (!isValidPhoneNumber(value)) {
+        setError(translation.phoneError);
+        return;
+      }
+      setError(null);
+      onNext(value);
+    } catch (error) {
+      setError(translation.phoneError);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold">{translation.phoneTitle}</h2>
+    <form onSubmit={handleSubmit} className="form-appear space-y-6">
+      <div className="space-y-2 text-center">
+        <h1 className="text-2xl font-bold">{translation.phoneTitle}</h1>
       </div>
-      
-      <div className="space-y-2">
-        <div className="phone-input-container">
+
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="phone">{translation.phoneTitle}</Label>
+          <style>
+            {`
+              .PhoneInput {
+                display: flex;
+                align-items: center;
+              }
+              .PhoneInputCountry {
+                margin-right: 0.5rem;
+              }
+              .PhoneInputInput {
+                flex: 1;
+                min-width: 0;
+                border-radius: 0.375rem;
+                border-width: 1px;
+                padding: 0.5rem 0.75rem;
+                background-color: transparent;
+                color: inherit;
+              }
+              .dark .PhoneInputInput {
+                border-color: hsl(var(--border));
+                background-color: transparent;
+                color: inherit;
+              }
+            `}
+          </style>
           <PhoneInput
             international
-            defaultCountry="DZ"
-            value={phone}
-            onChange={(value) => {
-              setPhone(value || '');
-              if (value) setError('');
-            }}
+            countryCallingCodeEditable={false}
+            defaultCountry="FR"
+            value={value}
+            onChange={setValue as any}
             placeholder={translation.phonePlaceholder}
-            className={`${error ? 'phone-input-error' : ''}`}
+            className="flex"
           />
-          <style jsx global>{`
-            .PhoneInput {
-              display: flex;
-              align-items: center;
-              border-radius: 0.375rem;
-              border: 1px solid ${error ? '#ef4444' : 'hsl(var(--border))'};
-              padding: 0.5rem;
-            }
-            .PhoneInputCountry {
-              margin-right: 0.5rem;
-            }
-            .PhoneInputInput {
-              flex: 1;
-              border: none;
-              outline: none;
-              padding: 0.25rem;
-              font-size: 1.125rem;
-              line-height: 1.75rem;
-            }
-          `}</style>
+          {error && <p className="text-sm text-destructive">{error}</p>}
         </div>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+
+        <Button type="submit" className="w-full">
+          {translation.phoneButton}
+        </Button>
       </div>
-      
-      <Button 
-        type="submit" 
-        className="w-full"
-        size="lg"
-      >
-        {translation.phoneButton}
-        <ArrowRight className="ml-2 h-4 w-4" />
-      </Button>
     </form>
   );
 };
