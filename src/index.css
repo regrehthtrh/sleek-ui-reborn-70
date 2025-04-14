@@ -133,13 +133,13 @@
   @apply fixed bottom-4 right-4 z-50 bg-white dark:bg-[#1E1E1F] p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 flex items-center;
 }
 
-/* Icon styling */
+/* Original icon styling */
 svg {
-  @apply fill-[#D84B16] stroke-[#D84B16] transition-colors duration-200;
+  @apply text-[#D84B16] transition-colors duration-200;
 }
 
 button:hover svg {
-  @apply fill-white stroke-white;
+  @apply text-white;
 }
 
 button:hover {
