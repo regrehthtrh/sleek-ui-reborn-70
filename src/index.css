@@ -126,20 +126,15 @@
 }
 
 .theme-toggle {
-  @apply fixed bottom-4 left-4 z-50 bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg cursor-pointer transition-all hover:scale-105 border border-gray-200 dark:border-gray-700;
+  @apply fixed bottom-4 left-4 z-50 bg-white dark:bg-[#1E1E1F] p-3 rounded-full shadow-lg cursor-pointer transition-all hover:scale-105 border border-gray-200 dark:border-gray-700;
 }
 
 .progress-container {
-  @apply fixed bottom-4 right-4 z-50 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 flex items-center;
+  @apply fixed bottom-4 right-4 z-50 bg-white dark:bg-[#1E1E1F] p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 flex items-center;
 }
 
-.back-button {
-  @apply absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors;
-}
-
-/* Dark theme button styles */
 .dark button {
-  @apply border border-primary text-primary bg-transparent hover:bg-primary hover:text-white transition-all;
+  @apply text-[#D84B16] border border-[#D84B16] bg-transparent hover:bg-[#D84B16] hover:text-white transition-all;
 }
 
 @media (max-width: 640px) {
@@ -147,3 +142,4 @@
     @apply bottom-20 right-4;
   }
 }
+
