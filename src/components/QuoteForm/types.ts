@@ -13,7 +13,9 @@ export type Step =
   | 'cybersecurity-subtype'
   | 'cloud-subtype'
   | 'description'
-  | 'budget';
+  | 'budget'
+  | 'additional-services'
+  | 'thank-you';
 
 export type Service = 
   | 'Web Development'
@@ -86,4 +88,9 @@ export interface FormData {
   cloudSubtype?: CloudSubtype;
   projectDescription?: string;
   budget: number | null;
+  additionalServices?: Array<{
+    id: string;
+    name: string;
+    price: number;
+  }>;
 }

@@ -73,6 +73,34 @@ export interface FormTranslations {
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
   descriptionButton?: string;
+  // New translation keys for additional services
+  additionalServicesTitle?: string;
+  additionalServicesSubtitle?: string;
+  additionalServicesButton?: string;
+  totalAdditionalServices?: string;
+  additionalServices?: {
+    translationFr?: string;
+    translationEn?: string;
+    translationAr?: string;
+    translationEs?: string;
+    paymentDahabia?: string;
+    paymentPaypal?: string;
+    paymentStripe?: string;
+    blog?: string;
+    seo?: string;
+    socialMedia?: string;
+    analytics?: string;
+    adminPanel?: string;
+    chatbot?: string;
+    customEmail?: string;
+    responsive?: string;
+  };
+  // Thank you page
+  thankYouTitle?: string;
+  thankYouMessage?: string;
+  servicesRequestedTitle?: string;
+  totalBudgetLabel?: string;
+  startNewRequest?: string;
 }
 
 export const translations: Record<TranslationKey, FormTranslations> = {
@@ -136,7 +164,34 @@ export const translations: Record<TranslationKey, FormTranslations> = {
     budgetPlaceholder: "ex: 3",
     budgetError: "Veuillez entrer un budget d'au moins 3 millions",
     budgetButton: "Soumettre",
-    submitSuccess: "Formulaire soumis avec succès!"
+    submitSuccess: "Formulaire soumis avec succès!",
+    // New keys
+    additionalServicesTitle: "Services Additionnels",
+    additionalServicesSubtitle: "Sélectionnez les services supplémentaires dont vous pourriez avoir besoin :",
+    additionalServicesButton: "Continuer",
+    totalAdditionalServices: "Total pour les services additionnels :",
+    additionalServices: {
+      translationFr: "Traduction en Français",
+      translationEn: "Traduction en Anglais",
+      translationAr: "Traduction en Arabe",
+      translationEs: "Traduction en Espagnol",
+      paymentDahabia: "Intégration de Paiement Dahabia/CIB",
+      paymentPaypal: "Intégration PayPal",
+      paymentStripe: "Intégration de Paiement Stripe",
+      blog: "Configuration de Blog",
+      seo: "Optimisation SEO",
+      socialMedia: "Intégration des Médias Sociaux",
+      analytics: "Configuration d'Analytiques",
+      adminPanel: "Panneau d'Administration Personnalisé",
+      chatbot: "Intégration de Chatbot",
+      customEmail: "Templates d'Email Personnalisés",
+      responsive: "Design Responsive",
+    },
+    thankYouTitle: "Merci !",
+    thankYouMessage: "Votre demande a été soumise avec succès. Nous vous répondrons prochainement.",
+    servicesRequestedTitle: "Services Demandés",
+    totalBudgetLabel: "Budget Total",
+    startNewRequest: "Commencer une Nouvelle Demande"
   },
   en: {
     welcomeTitle: "Quote Request Form",
@@ -198,7 +253,34 @@ export const translations: Record<TranslationKey, FormTranslations> = {
     budgetPlaceholder: "ex: 3",
     budgetError: "Please enter a budget of at least 3 million",
     budgetButton: "Submit",
-    submitSuccess: "Form submitted successfully!"
+    submitSuccess: "Form submitted successfully!",
+    // New keys
+    additionalServicesTitle: "Additional Services",
+    additionalServicesSubtitle: "Select any additional services you may need:",
+    additionalServicesButton: "Continue",
+    totalAdditionalServices: "Total for additional services:",
+    additionalServices: {
+      translationFr: "French Translation",
+      translationEn: "English Translation",
+      translationAr: "Arabic Translation",
+      translationEs: "Spanish Translation",
+      paymentDahabia: "Dahabia/CIB Payment Integration",
+      paymentPaypal: "PayPal Integration",
+      paymentStripe: "Stripe Payment Integration",
+      blog: "Blog Setup",
+      seo: "SEO Optimization",
+      socialMedia: "Social Media Integration",
+      analytics: "Analytics Setup",
+      adminPanel: "Custom Admin Panel",
+      chatbot: "Chatbot Integration",
+      customEmail: "Custom Email Templates",
+      responsive: "Responsive Design",
+    },
+    thankYouTitle: "Thank You!",
+    thankYouMessage: "Your request has been submitted successfully. We'll get back to you shortly.",
+    servicesRequestedTitle: "Services Requested",
+    totalBudgetLabel: "Total Budget",
+    startNewRequest: "Start New Request"
   },
   ar: {
     welcomeTitle: "نموذج طلب عرض سعر",
@@ -260,6 +342,33 @@ export const translations: Record<TranslationKey, FormTranslations> = {
     budgetPlaceholder: "مثال: 3",
     budgetError: "يرجى إدخال ميزانية لا تقل عن 3 ملايين",
     budgetButton: "إرسال",
-    submitSuccess: "تم إرسال النموذج بنجاح!"
+    submitSuccess: "تم إرسال النموذج بنجاح!",
+    // New keys
+    additionalServicesTitle: "خدمات إضافية",
+    additionalServicesSubtitle: "حدد أي خدمات إضافية قد تحتاجها:",
+    additionalServicesButton: "متابعة",
+    totalAdditionalServices: "إجمالي الخدمات الإضافية:",
+    additionalServices: {
+      translationFr: "ترجمة فرنسية",
+      translationEn: "ترجمة إنجليزية",
+      translationAr: "ترجمة عربية",
+      translationEs: "ترجمة إسبانية",
+      paymentDahabia: "تكامل الدفع داهابيا/CIB",
+      paymentPaypal: "تكامل باي بال",
+      paymentStripe: "تكامل الدفع ستريب",
+      blog: "إعداد مدونة",
+      seo: "تحسين محركات البحث",
+      socialMedia: "تكامل وسائل التواصل الاجتماعي",
+      analytics: "إعداد التحليلات",
+      adminPanel: "لوحة إدارة مخصصة",
+      chatbot: "تكامل روبوت الدردشة",
+      customEmail: "قوالب بريد إلكتروني مخصصة",
+      responsive: "تصميم متجاوب",
+    },
+    thankYouTitle: "شكراً لك!",
+    thankYouMessage: "تم تقديم طلبك بنجاح. سنعود إليك قريباً.",
+    servicesRequestedTitle: "الخدمات المطلوبة",
+    totalBudgetLabel: "الميزانية الإجمالية",
+    startNewRequest: "بدء طلب جديد"
   }
 };

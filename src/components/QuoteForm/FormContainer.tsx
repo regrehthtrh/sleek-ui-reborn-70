@@ -15,6 +15,8 @@ import { CybersecuritySubtypeStep } from './steps/CybersecuritySubtypeStep';
 import { CloudSubtypeStep } from './steps/CloudSubtypeStep';
 import { DescriptionStep } from './steps/DescriptionStep';
 import { BudgetStep } from './steps/BudgetStep';
+import { AdditionalServicesStep, AdditionalService } from './steps/AdditionalServicesStep';
+import { ThankYouPage } from './steps/ThankYouPage';
 import { FormData, Service, Step, MobileSubtype, AiSubtype, CybersecuritySubtype, CloudSubtype } from './types';
 import { TranslationKey, translations } from './translations';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -37,7 +39,9 @@ const stepOrder: Step[] = [
   'cybersecurity-subtype',
   'cloud-subtype',
   'description',
-  'budget'
+  'budget',
+  'additional-services',
+  'thank-you'
 ];
 
 // Steps that should be conditionally shown based on service selection
@@ -52,7 +56,7 @@ const conditionalSteps: Step[] = [
 
 export const FormContainer: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<Step>('welcome');
-  const [language, setLanguage] = useState<TranslationKey>('fr');
+  const [language, setLanguage] = useState<TranslationKey>('fr'); // Default to French
   const [history, setHistory] = useState<Step[]>(['welcome']);
   const [formData, setFormData] = useState<FormData>({
     fullname: '',
@@ -68,6 +72,7 @@ export const FormContainer: React.FC = () => {
     cloudSubtype: undefined,
     projectDescription: '',
     budget: null,
+    additionalServices: [],
   });
   
   const currentTranslation = translations[language];
@@ -76,6 +81,9 @@ export const FormContainer: React.FC = () => {
   const calculateProgress = (): number => {
     // Filter out conditional steps that aren't relevant to the current form flow
     let relevantSteps = stepOrder.filter(step => {
+      // Thank-you page is not counted in the progress
+      if (step === 'thank-you') return false;
+      
       // If service is selected and it's not relevant to this conditional step
       if (formData.service) {
         if (step === 'web-objective' && formData.service !== 'Web Development') return false;
@@ -90,7 +98,7 @@ export const FormContainer: React.FC = () => {
 
     const currentIndex = relevantSteps.indexOf(currentStep);
     if (currentIndex === -1) return 0;
-    return (currentIndex / (relevantSteps.length - 1)) * 100;
+    return Math.min((currentIndex / (relevantSteps.length - 1)) * 100, 100);
   };
 
   const nextStep = (step: Step) => {
@@ -140,8 +148,10 @@ export const FormContainer: React.FC = () => {
   
   const handleSubmit = () => {
     console.log('Form data:', formData);
-    toast.success(currentTranslation.submitSuccess);
-    // Reset form after successful submission
+    nextStep('thank-you');
+  };
+
+  const restartForm = () => {
     setFormData({
       fullname: '',
       email: '',
@@ -156,18 +166,20 @@ export const FormContainer: React.FC = () => {
       cloudSubtype: undefined,
       projectDescription: '',
       budget: null,
+      additionalServices: [],
     });
     setCurrentStep('welcome');
     setHistory(['welcome']);
   };
 
-  const showBackButton = currentStep !== 'welcome' && history.length > 1;
+  const showBackButton = currentStep !== 'welcome' && history.length > 1 && currentStep !== 'thank-you';
 
   // Calculate total number of steps for this form path
   const getTotalSteps = () => {
-    if (!formData.service) return stepOrder.indexOf('budget') + 1;
+    if (!formData.service) return stepOrder.indexOf('thank-you');
     
     const serviceSpecificSteps = stepOrder.filter(step => {
+      if (step === 'thank-you') return false;
       if (step === 'web-objective' && formData.service !== 'Web Development') return false;
       if (step === 'ecommerce' && formData.service !== 'E-Commerce') return false;
       if (step === 'mobile-subtype' && formData.service !== 'Mobile App Development') return false;
@@ -183,6 +195,7 @@ export const FormContainer: React.FC = () => {
   // Get current step number
   const getCurrentStepNumber = () => {
     const filteredSteps = stepOrder.filter(step => {
+      if (step === 'thank-you') return false;
       if (formData.service) {
         if (step === 'web-objective' && formData.service !== 'Web Development') return false;
         if (step === 'ecommerce' && formData.service !== 'E-Commerce') return false;
@@ -196,6 +209,35 @@ export const FormContainer: React.FC = () => {
     
     return filteredSteps.indexOf(currentStep) + 1;
   };
+
+  // Calculate total budget including additional services
+  const calculateTotalBudget = () => {
+    const baseBudget = formData.budget || 0;
+    const additionalServicesCost = formData.additionalServices?.reduce((sum, service) => sum + service.price, 0) || 0;
+    return baseBudget * 1000000 + additionalServicesCost; // Convert millions to actual amount
+  };
+
+  // Get selected service names for the thank you page
+  const getSelectedServiceNames = () => {
+    const serviceNames: string[] = [];
+    
+    // Add main service
+    if (formData.service) {
+      serviceNames.push(formData.service);
+    }
+    
+    // Add additional services
+    if (formData.additionalServices && formData.additionalServices.length > 0) {
+      formData.additionalServices.forEach(service => {
+        serviceNames.push(service.name);
+      });
+    }
+    
+    return serviceNames;
+  };
+
+  // Show progress indicator only on non-welcome and non-thank you pages
+  const showProgress = currentStep !== 'welcome' && currentStep !== 'thank-you';
 
   const renderStep = () => {
     switch (currentStep) {
@@ -331,10 +373,29 @@ export const FormContainer: React.FC = () => {
         return <BudgetStep 
           onNext={(value) => {
             setFormData(prev => ({ ...prev, budget: value }));
+            nextStep('additional-services');
+          }}
+          translation={currentTranslation}
+          language={language}
+        />;
+      
+      case 'additional-services':
+        return <AdditionalServicesStep
+          onNext={(selectedServices: AdditionalService[]) => {
+            setFormData(prev => ({ ...prev, additionalServices: selectedServices }));
             handleSubmit();
           }}
           translation={currentTranslation}
           language={language}
+        />;
+        
+      case 'thank-you':
+        return <ThankYouPage
+          onRestart={restartForm}
+          translation={currentTranslation}
+          language={language}
+          selectedServices={getSelectedServiceNames()}
+          totalBudget={calculateTotalBudget()}
         />;
       
       default:
@@ -359,12 +420,14 @@ export const FormContainer: React.FC = () => {
         {renderStep()}
       </div>
       <ThemeToggle />
-      <FormProgress 
-        currentStep={getCurrentStepNumber().toString()} 
-        totalSteps={getTotalSteps()} 
-        progress={calculateProgress()}
-        language={language}
-      />
+      {showProgress && (
+        <FormProgress 
+          currentStep={getCurrentStepNumber().toString()} 
+          totalSteps={getTotalSteps()} 
+          progress={calculateProgress()}
+          language={language}
+        />
+      )}
     </div>
   );
 };
