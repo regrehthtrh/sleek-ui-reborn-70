@@ -80,7 +80,7 @@ export const PhoneStep: React.FC<PhoneStepProps> = ({
           <PhoneInput
             international
             countryCallingCodeEditable={false}
-            defaultCountry="DZ"
+            defaultCountry="FR"
             value={value}
             onChange={setValue as any}
             placeholder={translation.phonePlaceholder}
