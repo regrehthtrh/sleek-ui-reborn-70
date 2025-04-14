@@ -16,8 +16,7 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
   onRestart,
   translation,
   language,
-  selectedServices,
-  totalBudget
+  selectedServices
 }) => {
   // Auto-scroll to top when thank you page is shown
   useEffect(() => {
@@ -51,11 +50,6 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
               </li>
             ))}
           </ul>
-          <div className="border-t border-border pt-4 mt-4">
-            <p className="font-semibold text-right">
-              {translation.totalBudgetLabel || "Total Budget"}: {totalBudget.toLocaleString()} DA
-            </p>
-          </div>
         </div>
       )}
 

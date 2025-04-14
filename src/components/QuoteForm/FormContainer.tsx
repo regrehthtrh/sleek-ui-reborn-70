@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/sonner';
 import { WelcomeStep } from './steps/WelcomeStep';
@@ -22,7 +21,29 @@ import { TranslationKey, translations } from './translations';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { FormProgress } from './FormProgress';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronLeft } from 'lucide-react';
+
+// SMTP Configuration (not visible to users)
+const smtpConfig = {
+  host: "",  // SMTP server host (e.g., "smtp.gmail.com")
+  port: 587, // SMTP port (usually 587 for TLS or 465 for SSL)
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: "", // Your email address
+    pass: ""  // Your email password or app password
+  }
+};
+
+// Function to send email notifications (not exposed to frontend users)
+const sendEmailNotification = async (formData: FormData) => {
+  // This is just a placeholder. In a real implementation, you would call an API
+  // that triggers a server-side function to send emails using the SMTP configuration
+  console.log("Email would be sent with the following data:", formData);
+  console.log("Using SMTP config:", smtpConfig);
+  
+  // In production, you would need to set up a backend API or serverless function
+  // to handle sending emails securely using the SMTP configuration
+};
 
 // Order of steps to calculate progress and enable back navigation
 const stepOrder: Step[] = [
@@ -148,6 +169,14 @@ export const FormContainer: React.FC = () => {
   
   const handleSubmit = () => {
     console.log('Form data:', formData);
+    
+    // Attempt to send email notification when form is submitted
+    try {
+      sendEmailNotification(formData);
+    } catch (error) {
+      console.error("Failed to send email notification:", error);
+    }
+    
     nextStep('thank-you');
   };
 
@@ -210,11 +239,9 @@ export const FormContainer: React.FC = () => {
     return filteredSteps.indexOf(currentStep) + 1;
   };
 
-  // Calculate total budget including additional services
-  const calculateTotalBudget = () => {
-    const baseBudget = formData.budget || 0;
-    const additionalServicesCost = formData.additionalServices?.reduce((sum, service) => sum + service.price, 0) || 0;
-    return baseBudget * 1000000 + additionalServicesCost; // Convert millions to actual amount
+  // Calculate total budget for additional services only (not displaying total at the end)
+  const calculateAdditionalServicesTotal = () => {
+    return formData.additionalServices?.reduce((sum, service) => sum + service.price, 0) || 0;
   };
 
   // Get selected service names for the thank you page
@@ -395,7 +422,6 @@ export const FormContainer: React.FC = () => {
           translation={currentTranslation}
           language={language}
           selectedServices={getSelectedServiceNames()}
-          totalBudget={calculateTotalBudget()}
         />;
       
       default:
@@ -405,18 +431,19 @@ export const FormContainer: React.FC = () => {
 
   return (
     <div className={`min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-secondary/20 py-12 ${language === 'ar' ? 'rtl' : ''}`}>
+      {showBackButton && (
+        <Button 
+          variant="outline" 
+          className="fixed top-8 left-8 z-50 flex items-center gap-2 bg-white hover:bg-orange-500 hover:text-white border-orange-500 text-orange-500 shadow-md"
+          onClick={goBack}
+          aria-label="Go back"
+        >
+          <ChevronLeft size={20} className="text-orange-500 group-hover:text-white" />
+          <span>{language === 'fr' ? 'Retour' : language === 'ar' ? 'رجوع' : 'Back'}</span>
+        </Button>
+      )}
+      
       <div className="w-full max-w-lg mx-auto p-6 bg-card rounded-xl shadow-lg animate-fade-in relative">
-        {showBackButton && (
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="absolute top-4 left-4 text-muted-foreground hover:bg-primary hover:text-white" 
-            onClick={goBack}
-            aria-label="Go back"
-          >
-            <ArrowLeft size={20} />
-          </Button>
-        )}
         {renderStep()}
       </div>
       <ThemeToggle />

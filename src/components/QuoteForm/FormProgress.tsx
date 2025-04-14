@@ -34,7 +34,6 @@ export const FormProgress: React.FC<FormProgressProps> = ({
         <span className="text-muted-foreground">
           {stepText} {currentStep}/{totalSteps}
         </span>
-        <span className="font-semibold">{Math.round(progress)}%</span>
       </div>
       <Progress value={progress} className="h-2" />
     </div>
