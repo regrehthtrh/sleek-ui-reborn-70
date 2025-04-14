@@ -30,10 +30,10 @@ export const ThemeToggle: React.FC = () => {
   return (
     <button 
       onClick={toggleTheme}
-      className="theme-toggle"
+      className="theme-toggle fixed bottom-4 left-4 bg-white dark:bg-[#1E1E1F] p-2 rounded-full shadow-lg hover:scale-105 transition-transform"
       aria-label="Toggle theme"
     >
-      {isDark ? <Sun size={20} className="text-primary" /> : <Moon size={20} />}
+      {isDark ? <Sun size={20} className="text-[#D84B16]" /> : <Moon size={20} />}
     </button>
   );
 };

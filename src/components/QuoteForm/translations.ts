@@ -62,6 +62,17 @@ export interface FormTranslations {
   budgetError: string;
   budgetButton: string;
   submitSuccess: string;
+  // Adding missing translation keys
+  optional?: string;
+  mobileSubtypeTitle?: string;
+  aiSubtypeTitle?: string;
+  cybersecuritySubtypeTitle?: string;
+  cloudSubtypeTitle?: string;
+  descriptionTitle?: string;
+  descriptionSubtitle?: string;
+  descriptionLabel?: string;
+  descriptionPlaceholder?: string;
+  descriptionButton?: string;
 }
 
 export const translations: Record<TranslationKey, FormTranslations> = {

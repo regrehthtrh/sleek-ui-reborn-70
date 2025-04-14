@@ -2,7 +2,7 @@
 import React from 'react';
 import { MobileSubtype } from '../types';
 import { FormTranslations } from '../translations';
-import { Smartphone, Apple, Android, Globe, Boxes } from 'lucide-react';
+import { Smartphone, Phone, Globe, Boxes, TabletSmartphone } from 'lucide-react';
 
 interface MobileSubtypeStepProps {
   onNext: (value: MobileSubtype) => void;
@@ -22,12 +22,12 @@ export const MobileSubtypeStep: React.FC<MobileSubtypeStepProps> = ({
   }> = [
     { 
       id: 'iOS App', 
-      icon: <Apple className="h-6 w-6" />, 
+      icon: <Phone className="h-6 w-6" />, 
       label: "iOS App" 
     },
     { 
       id: 'Android App', 
-      icon: <Android className="h-6 w-6" />, 
+      icon: <TabletSmartphone className="h-6 w-6" />, 
       label: "Android App" 
     },
     { 
