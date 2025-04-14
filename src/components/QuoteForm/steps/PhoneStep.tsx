@@ -6,11 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import 'react-phone-number-input/style.css';
-import { Translation } from '../translations';
+import { FormTranslations } from '../translations';
 
 interface PhoneStepProps {
   onNext: (value: string) => void;
-  translation: Translation;
+  translation: FormTranslations;
   initialValue?: string;
   language: string;
 }
