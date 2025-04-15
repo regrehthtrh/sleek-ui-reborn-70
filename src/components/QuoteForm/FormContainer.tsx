@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/sonner';
 import { WelcomeStep } from './steps/WelcomeStep';
@@ -24,29 +23,23 @@ import { FormProgress } from './FormProgress';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ChevronLeft } from 'lucide-react';
 
-// SMTP Configuration (not visible to users)
 const smtpConfig = {
-  host: "",  // SMTP server host (e.g., "smtp.gmail.com")
-  port: 587, // SMTP port (usually 587 for TLS or 465 for SSL)
-  secure: false, // true for 465, false for other ports
+  host: "",
+  port: 587,
+  secure: false,
   auth: {
-    user: "", // Your email address
-    pass: ""  // Your email password or app password
+    user: "",
+    pass: ""
   }
 };
 
-// Function to send email notifications (not exposed to frontend users)
 const sendEmailNotification = async (formData: FormData) => {
-  // This is just a placeholder. In a real implementation, you would call an API
-  // that triggers a server-side function to send emails using the SMTP configuration
   console.log("Email would be sent with the following data:", formData);
   console.log("Using SMTP config:", smtpConfig);
   
-  // In production, you would need to set up a backend API or serverless function
-  // to handle sending emails securely using the SMTP configuration
+  console.error("Failed to send email notification:", error);
 };
 
-// Order of steps to calculate progress and enable back navigation
 const stepOrder: Step[] = [
   'welcome',
   'fullname',
@@ -66,7 +59,6 @@ const stepOrder: Step[] = [
   'thank-you'
 ];
 
-// Steps that should be conditionally shown based on service selection
 const conditionalSteps: Step[] = [
   'web-objective', 
   'ecommerce',
@@ -78,7 +70,7 @@ const conditionalSteps: Step[] = [
 
 export const FormContainer: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<Step>('welcome');
-  const [language, setLanguage] = useState<TranslationKey>('fr'); // Default to French
+  const [language, setLanguage] = useState<TranslationKey>('fr');
   const [history, setHistory] = useState<Step[]>(['welcome']);
   const [formData, setFormData] = useState<FormData>({
     fullname: '',
@@ -99,14 +91,9 @@ export const FormContainer: React.FC = () => {
   
   const currentTranslation = translations[language];
   
-  // Calculate the current progress percentage
   const calculateProgress = (): number => {
-    // Filter out conditional steps that aren't relevant to the current form flow
     let relevantSteps = stepOrder.filter(step => {
-      // Thank-you page is not counted in the progress
       if (step === 'thank-you') return false;
-      
-      // If service is selected and it's not relevant to this conditional step
       if (formData.service) {
         if (step === 'web-objective' && formData.service !== 'Web Development') return false;
         if (step === 'ecommerce' && formData.service !== 'E-Commerce') return false;
@@ -131,10 +118,8 @@ export const FormContainer: React.FC = () => {
 
   const goBack = () => {
     if (history.length > 1) {
-      // Remove current step from history
       const newHistory = [...history];
       newHistory.pop();
-      // Set the previous step as current
       const previousStep = newHistory[newHistory.length - 1];
       setCurrentStep(previousStep);
       setHistory(newHistory);
@@ -162,7 +147,6 @@ export const FormContainer: React.FC = () => {
     }
   };
   
-  // Skip business name if it's empty
   const handleBusinessStep = (value: string) => {
     setFormData(prev => ({ ...prev, business: value }));
     nextStep('service');
@@ -171,7 +155,6 @@ export const FormContainer: React.FC = () => {
   const handleSubmit = () => {
     console.log('Form data:', formData);
     
-    // Attempt to send email notification when form is submitted
     try {
       sendEmailNotification(formData);
     } catch (error) {
@@ -204,7 +187,6 @@ export const FormContainer: React.FC = () => {
 
   const showBackButton = currentStep !== 'welcome' && history.length > 1 && currentStep !== 'thank-you';
 
-  // Calculate total number of steps for this form path
   const getTotalSteps = () => {
     if (!formData.service) return stepOrder.indexOf('thank-you');
     
@@ -222,7 +204,6 @@ export const FormContainer: React.FC = () => {
     return serviceSpecificSteps.length;
   };
 
-  // Get current step number
   const getCurrentStepNumber = () => {
     const filteredSteps = stepOrder.filter(step => {
       if (step === 'thank-you') return false;
@@ -240,21 +221,23 @@ export const FormContainer: React.FC = () => {
     return filteredSteps.indexOf(currentStep) + 1;
   };
 
-  // Calculate total budget for additional services only (not displaying total at the end)
+  const calculateTotalBudget = () => {
+    const mainBudget = formData.budget || 0;
+    const additionalServicesTotal = calculateAdditionalServicesTotal();
+    return mainBudget + additionalServicesTotal;
+  };
+
   const calculateAdditionalServicesTotal = () => {
     return formData.additionalServices?.reduce((sum, service) => sum + service.price, 0) || 0;
   };
 
-  // Get selected service names for the thank you page
   const getSelectedServiceNames = () => {
     const serviceNames: string[] = [];
     
-    // Add main service
     if (formData.service) {
       serviceNames.push(formData.service);
     }
     
-    // Add additional services
     if (formData.additionalServices && formData.additionalServices.length > 0) {
       formData.additionalServices.forEach(service => {
         serviceNames.push(service.name);
@@ -264,7 +247,6 @@ export const FormContainer: React.FC = () => {
     return serviceNames;
   };
 
-  // Show progress indicator only on non-welcome and non-thank you pages
   const showProgress = currentStep !== 'welcome' && currentStep !== 'thank-you';
 
   const renderStep = () => {
@@ -308,7 +290,7 @@ export const FormContainer: React.FC = () => {
           translation={currentTranslation}
           initialValue={formData.phone}
           language={language}
-          defaultCountry="DZ" // Set Algeria as default country
+          defaultCountry="DZ"
         />;
       
       case 'business':
@@ -424,6 +406,7 @@ export const FormContainer: React.FC = () => {
           translation={currentTranslation}
           language={language}
           selectedServices={getSelectedServiceNames()}
+          totalBudget={calculateTotalBudget()}
         />;
       
       default:
