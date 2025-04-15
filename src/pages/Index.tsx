@@ -3,6 +3,13 @@ import { FormContainer } from '@/components/QuoteForm/FormContainer';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
+// Augment the window object with our custom initialization function
+declare global {
+  interface Window {
+    initSyntaxQuoteForm: () => void;
+  }
+}
+
 const Index = () => {
   useEffect(() => {
     document.title = "Quote Request Form";

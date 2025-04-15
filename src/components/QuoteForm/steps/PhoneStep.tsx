@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import PhoneInput from 'react-phone-number-input';
+import PhoneInput, { CountryCode } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ interface PhoneStepProps {
   translation: FormTranslations;
   initialValue?: string;
   language: string;
-  defaultCountry?: string;
+  defaultCountry?: CountryCode;
 }
 
 export const PhoneStep: React.FC<PhoneStepProps> = ({
@@ -20,7 +20,7 @@ export const PhoneStep: React.FC<PhoneStepProps> = ({
   translation,
   initialValue = '',
   language,
-  defaultCountry = 'DZ'
+  defaultCountry = 'DZ' as CountryCode
 }) => {
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState<string | null>(null);

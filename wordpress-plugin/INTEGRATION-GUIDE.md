@@ -64,11 +64,16 @@ If the form doesn't appear:
    - Ensure the path to your dist/assets folder is correct
    - The plugin should be able to access files at: `/wp-content/plugins/syntax-quote-form/dist/assets/`
 
-3. **Plugin Settings**
+3. **PHP Errors**
+   - Check if there are any PHP errors in the WordPress debug.log
+   - Make sure the PHP file doesn't have any whitespace before the opening `<?php` tag
+   - Check if there are any special characters at the beginning of the file (like BOM)
+
+4. **Plugin Settings**
    - Check the plugin settings page in WordPress admin
    - Verify that the form language is set correctly
 
-4. **Theme Compatibility**
+5. **Theme Compatibility**
    - Some WordPress themes might have CSS that conflicts with the form
    - Try using the form on a default WordPress theme to test
 
