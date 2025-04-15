@@ -44,13 +44,13 @@ export const PhoneStep: React.FC<PhoneStepProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-appear space-y-6">
-      <div className="space-y-2 text-center">
+    <form onSubmit={handleSubmit} className="form-appear space-y-6 animate-fade-in">
+      <div className="space-y-2 text-center animate-scale-in">
         <h1 className="text-2xl font-bold">{translation.phoneTitle}</h1>
       </div>
 
       <div className="space-y-4">
-        <div className="space-y-2">
+        <div className="space-y-2 animate-slide-in">
           <Label htmlFor="phone">{translation.phoneTitle}</Label>
           <style>
             {`
@@ -80,7 +80,7 @@ export const PhoneStep: React.FC<PhoneStepProps> = ({
           <PhoneInput
             international
             countryCallingCodeEditable={false}
-            defaultCountry="FR"
+            defaultCountry="DZ"
             value={value}
             onChange={setValue as any}
             placeholder={translation.phonePlaceholder}
@@ -89,7 +89,7 @@ export const PhoneStep: React.FC<PhoneStepProps> = ({
           {error && <p className="text-sm text-destructive">{error}</p>}
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full hover:scale-[1.02] transition-transform">
           {translation.phoneButton}
         </Button>
       </div>
