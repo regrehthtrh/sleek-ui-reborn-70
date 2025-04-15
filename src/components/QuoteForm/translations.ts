@@ -1,4 +1,3 @@
-
 export type TranslationKey = 'fr' | 'en' | 'ar';
 
 export interface FormTranslations {
@@ -165,6 +164,12 @@ export const translations: Record<TranslationKey, FormTranslations> = {
     budgetError: "Veuillez entrer un budget d'au moins 3 millions",
     budgetButton: "Soumettre",
     submitSuccess: "Formulaire soumis avec succès!",
+    // Updated translations
+    descriptionTitle: "Description du Projet",
+    descriptionSubtitle: "Parlez-nous de votre projet (optionnel)",
+    descriptionLabel: "Description",
+    descriptionPlaceholder: "Fournissez des détails sur votre projet...",
+    descriptionButton: "Continuer",
     // New keys
     additionalServicesTitle: "Services Additionnels",
     additionalServicesSubtitle: "Sélectionnez les services supplémentaires dont vous pourriez avoir besoin :",

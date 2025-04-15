@@ -34,10 +34,13 @@ const smtpConfig = {
 };
 
 const sendEmailNotification = async (formData: FormData) => {
-  console.log("Email would be sent with the following data:", formData);
-  console.log("Using SMTP config:", smtpConfig);
-  
-  console.error("Failed to send email notification:", error);
+  try {
+    console.log("Email would be sent with the following data:", formData);
+    console.log("Using SMTP config:", smtpConfig);
+    // Actual email sending would happen here
+  } catch (err) {
+    console.error("Failed to send email notification:", err);
+  }
 };
 
 const stepOrder: Step[] = [
