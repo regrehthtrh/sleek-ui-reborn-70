@@ -106,7 +106,7 @@ class Syntax_Quote_Form {
         // Only enqueue on pages where the shortcode is used
         global $post;
         if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'syntax_quote_form')) {
-            // Enqueue the bundled React app
+            // Enqueue the bundled React app CSS
             wp_enqueue_style(
                 'syntax-quote-form-styles',
                 SYNTAX_QUOTE_FORM_PLUGIN_URL . 'dist/assets/index.css',
@@ -114,6 +114,7 @@ class Syntax_Quote_Form {
                 SYNTAX_QUOTE_FORM_VERSION
             );
             
+            // Enqueue all JS files from the dist/assets directory
             wp_enqueue_script(
                 'syntax-quote-form-js',
                 SYNTAX_QUOTE_FORM_PLUGIN_URL . 'dist/assets/index.js',
@@ -432,9 +433,24 @@ class Syntax_Quote_Form {
             'language' => get_option('syntax_quote_form_options')['form_language'],
         ), $atts, 'syntax_quote_form');
         
+        // Add the container and run initialization script for the React app
         ob_start();
         ?>
         <div id="syntax-quote-form-root" data-language="<?php echo esc_attr($atts['language']); ?>"></div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Check if the initialization function exists (it should be in the React bundle)
+                if (typeof window.initSyntaxQuoteForm === 'function') {
+                    window.initSyntaxQuoteForm();
+                } else {
+                    console.error('Syntax Quote Form initialization function not found');
+                    document.getElementById('syntax-quote-form-root').innerHTML = 
+                        '<div style="color: red; padding: 20px; border: 1px solid #ccc; text-align: center;">' +
+                        'Error loading the quote form. Please contact the administrator.' +
+                        '</div>';
+                }
+            });
+        </script>
         <?php
         return ob_get_clean();
     }
